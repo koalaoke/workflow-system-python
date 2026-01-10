@@ -9,7 +9,7 @@ class Processo:
 
     def __init__(self, titulo: str, estado_inicial: EstadoProcesso):
         self._titulo = titulo
-        self._estado = EstadoProcesso = estado_inicial
+        self._estado = estado_inicial
         self._historico: List[str] = []
 
         self._registrar_historico(f"Processo criado em estado: {self._estado.nome}")
@@ -27,12 +27,12 @@ class Processo:
         self._estado = novo_estado
         self._registrar_historico(f"Transição para: {novo_estado.nome}")
 
-        def aprovar(self) -> None:
+    def aprovar(self) -> None:
             self._estado.aprovar(self)
 
-        def rejeitar(self) -> None:
+    def rejeitar(self) -> None:
             self._estado.rejeitar(self)
 
-        def _registrar_historico(self, mensagem: str) -> None:
+    def _registrar_historico(self, mensagem: str) -> None:
             self._historico.append(mensagem)
             print(f"[Log]: {mensagem}")
