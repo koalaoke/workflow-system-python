@@ -1,11 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    # Este import só acontece enquanto o editor analisa o código,
-    # mas é ignorado quando o programa roda de verdade.
-    from src.workflow.processo import Processo
-
 class EstadoProcesso(ABC):
     """
     Interface que define o contrato para todos os estados. Cada método representa uma ação possível no workflow. 
