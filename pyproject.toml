@@ -1,0 +1,7 @@
+[project]
+name = "workflow-system-python"
+version = "0.1.0"
+description = "Um sistema de workflow para a disciplina de POO"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
