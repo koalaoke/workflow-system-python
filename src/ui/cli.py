@@ -1,37 +1,34 @@
-import os
 import time
+from rich.console import Console
 from src.services.manager import GerenciadorDeProcessos
 from src.domain.exceptions import TransicaoInvalidaError
 
 # Instância do sistema
 sistema = GerenciadorDeProcessos()
 
-def limpar():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
 def pausar():
     input("\n[ENTER] para continuar...")
 
-def menu_processo(processo):
+def menu_processo(console ,processo):
     while True:
-        limpar()
-        print(f"🔧 GERENCIANDO: {processo.titulo}")
-        print(f"🚦 ESTADO: [{processo.estado_atual}]")
-        print("1. ✅ Aprovar / Avançar")
-        print("2. ⛔ Rejeitar")
-        print("3. 📜 Ver Histórico")
-        print("0. 🔙 Voltar")
+        console.clear()
+        console.print(f"🔧 GERENCIANDO: {processo.titulo}")
+        console.print(f"🚦 ESTADO: [{processo.estado_atual}]")
+        console.print("1. ✅ Aprovar / Avançar")
+        console.print("2. ⛔ Rejeitar")
+        console.print("3. 📜 Ver Histórico")
+        console.print("0. 🔙 Voltar")
         
-        op = input("\nOpção: ")
+        op = console.input("\nOpção: ")
         
         try:
             if op == "1":
                 processo.aprovar()
-                print(">> Sucesso: Processo avançou.")
+                console.print(">> Sucesso: Processo avançou.")
                 time.sleep(1)
             elif op == "2":
                 processo.rejeitar()
-                print(">> Sucesso: Processo rejeitado.")
+                console.print(">> Sucesso: Processo rejeitado.")
                 time.sleep(1)
             elif op == "3":
                 processo.ver_historico()
@@ -39,29 +36,30 @@ def menu_processo(processo):
             elif op == "0":
                 break
             else:
-                print("Opção inválida.")
+                console.print("Opção inválida.")
                 time.sleep(0.5)
         except TransicaoInvalidaError as e:
-            print(f"\n❌ ERRO DE REGRA: {e}")
+            console.print(f"\n❌ ERRO DE REGRA: {e}")
             pausar()
 
 def menu_principal():
-    # Dados iniciais para teste
     sistema.criar("Aquisição de Notebooks")
     
+    console = Console()
     while True:
-        limpar()
+        console.print()
+        console.clear()
         print("=== SISTEMA WORKFLOW ===")
         lista = sistema.listar()
         
         for i, p in enumerate(lista):
-            print(f"{i+1}. [{p.estado_atual}] {p.titulo}")
+            console.print(f"{i+1}. [{p.estado_atual}] {p.titulo}")
             
         print("-" * 30)
         print("N. Novo Processo")
         print("0. Sair")
         
-        op = input("\nEscolha (Número ou Letra): ").upper()
+        op = console.input("\nEscolha (Número ou Letra): ").upper()
         
         if op == "0":
             break
@@ -72,7 +70,7 @@ def menu_principal():
             idx = int(op)
             proc = sistema.buscar(idx)
             if proc:
-                menu_processo(proc)
+                menu_processo(console, proc)
             else:
                 print("Processo não encontrado.")
                 time.sleep(1)
