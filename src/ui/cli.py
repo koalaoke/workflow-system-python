@@ -21,7 +21,7 @@ def menu_principal():
                 case "help":
                     console.rule("[white bold]Workflow - Seus sistema de processos.")
                     console.print("help - Exibe ajuda.")
-                    console.print("process list- Exibe os processos.")
+                    console.print("process list - Exibe os processos.")
                     console.print("process new - Cria processo.")
                     console.print("process <id> - Exibe um processo.")
                     console.print("clear - Limpa o console.")

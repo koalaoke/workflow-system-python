@@ -3,9 +3,6 @@ from src.domain.entities import Processo
 from src.domain.states import EstadoCriado
 
 class GerenciadorDeProcessos:
-    """
-    Gerenciar múltiplos processos.
-    """
     def __init__(self):
         self._processos: List[Processo] = []
         self._contador = 1
