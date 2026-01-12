@@ -3,6 +3,10 @@ import time
 from rich.prompt import Prompt
 from src.domain.exceptions import TransicaoInvalidaError
 
+class InteractiveParser(argparse.ArgumentParser):
+    def error(self, message):
+        raise ValueError(message)
+
 def pausar():
     input("\n[ENTER] para continuar...")
 
@@ -55,8 +59,8 @@ def open_process(args):
             console.print(f"\n❌ ERRO DE REGRA: {e}")
             pausar()
 
-process_parser = argparse.ArgumentParser(prog='process')
-subparsers = process_parser.add_subparsers(help='subcommand help')
+process_parser = InteractiveParser(prog='process', add_help=False)
+subparsers = process_parser.add_subparsers()
 
 parser_new = subparsers.add_parser('new', help='new help')
 parser_new.set_defaults(func=create_process)
