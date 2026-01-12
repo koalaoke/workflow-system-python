@@ -1,10 +1,12 @@
 import shlex
+import os
 import argparse
 from .process import process_parser
 from rich.console import Console
 from src.services.manager import GerenciadorDeProcessos
 
 sistema = GerenciadorDeProcessos()
+os.system('cls' if os.name == 'nt' else 'clear')
 
 def menu_principal():
     sistema.criar("Aquisição de Notebooks")    
@@ -23,7 +25,7 @@ def menu_principal():
                     console.print("help - Exibe ajuda.")
                     console.print("process list - Exibe os processos.")
                     console.print("process new - Cria processo.")
-                    console.print("process <id> - Exibe um processo.")
+                    console.print("process open <id> - Exibe um processo.")
                     console.print("clear - Limpa o console.")
                     console.print("exit - sai do sistema.")
 
@@ -43,8 +45,8 @@ def menu_principal():
 
 
                 case "clear":
-                    console.clear()
-                    console.print()
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    continue
 
                 case "exit":
                     break
