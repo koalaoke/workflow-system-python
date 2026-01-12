@@ -1,6 +1,8 @@
 import argparse
 import time
+from rich.table import Table
 from rich.prompt import Prompt
+from rich import box
 from src.domain.exceptions import TransicaoInvalidaError
 
 class InteractiveParser(argparse.ArgumentParser):
@@ -12,13 +14,28 @@ def pausar():
 
 def list_process(args):
     lista = args.sistema.listar()
+    table = Table(title="Seus processos",box=box.MINIMAL)
+    table.add_column("ID")
+    table.add_column("Título")
+    table.add_column("Status")
         
     for i, p in enumerate(lista):
-        args.console.print(f"{i+1}. [{p.estado_atual}] {p.titulo}")
+        table.add_row(f"{i+1}", p.titulo,  p.estado_atual)
+
+    if table.columns:
+        args.console.print(table)
+    else:
+       args.console.print("[i]Sem processos...")
+
 
 def create_process(args):
-    titulo = Prompt.ask("Nome do processo: ")
-    if titulo: args.sistema.criar(titulo)
+    titulo = args.name
+    while not titulo:
+        titulo = Prompt.ask("Nome do processo: ")
+        if not titulo:
+            args.console.print("[error]Use um nome válido.") 
+
+    args.sistema.criar(titulo)
 
 def open_process(args):
     idx = int(args.id)
@@ -63,6 +80,7 @@ process_parser = InteractiveParser(prog='process', add_help=False)
 subparsers = process_parser.add_subparsers()
 
 parser_new = subparsers.add_parser('new', help='new help')
+parser_new.add_argument("--name",type=str)
 parser_new.set_defaults(func=create_process)
 
 parser_list = subparsers.add_parser('list', help='list help')
